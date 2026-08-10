@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, follow">
+    <title>HAIFA Blog se přestěhoval | HAIFA Blog has moved</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f3ee;
+        --panel: #ffffff;
+        --text: #1f2933;
+        --muted: #5f6b7a;
+        --accent: #0f766e;
+        --accent-dark: #115e59;
+        --border: #d8dee6;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 32px 18px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.55;
+      }
+
+      main {
+        width: min(860px, 100%);
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: clamp(24px, 5vw, 48px);
+        box-shadow: 0 18px 45px rgba(31, 41, 51, 0.08);
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2rem, 5vw, 3.8rem);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin: 32px 0 10px;
+        font-size: clamp(1.35rem, 3vw, 2rem);
+        line-height: 1.2;
+        letter-spacing: 0;
+      }
+
+      p {
+        margin: 0 0 14px;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      a {
+        color: var(--accent-dark);
+        font-weight: 700;
+      }
+
+      .target {
+        margin: 22px 0;
+        padding: 16px 18px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #f9fbfb;
+        word-break: break-word;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-top: 24px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 10px 16px;
+        border-radius: 6px;
+        background: var(--accent);
+        color: #ffffff;
+        text-decoration: none;
+      }
+
+      .countdown {
+        color: var(--muted);
+      }
+
+      .divider {
+        height: 1px;
+        margin: 34px 0 0;
+        background: var(--border);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>HAIFA Blog se přestěhoval</h1>
+      <p>Původní adresa na osobním GitHub účtu už není hlavní kopie blogu.</p>
+      <p>Nová adresa blogu je:</p>
+      <p class="target"><a id="target-link-cs" href="https://haifa-blog.avaspace.com/">https://haifa-blog.avaspace.com/</a></p>
+      <p>Za <strong><span id="countdown-cs">5</span> sekund</strong> se stránka pokusí automaticky přesměrovat na novou adresu.</p>
+      <div class="actions">
+        <a class="button" id="button-cs" href="https://haifa-blog.avaspace.com/">Přejít na nový HAIFA Blog</a>
+        <span class="countdown">Pokud přesměrování neproběhne, použijte odkaz.</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2>HAIFA Blog has moved</h2>
+      <p>The old address on a personal GitHub account is no longer the main copy of the blog.</p>
+      <p>The new blog address is:</p>
+      <p class="target"><a id="target-link-en" href="https://haifa-blog.avaspace.com/">https://haifa-blog.avaspace.com/</a></p>
+      <p>In <strong><span id="countdown-en">5</span> seconds</strong>, this page will try to redirect you automatically.</p>
+      <div class="actions">
+        <a class="button" id="button-en" href="https://haifa-blog.avaspace.com/">Go to the new HAIFA Blog</a>
+        <span class="countdown">If the redirect does not happen, use the link.</span>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        var newBase = "https://haifa-blog.avaspace.com";
+        var oldPrefix = "/HAIFA_BLOG";
+        var path = window.location.pathname;
+
+        if (path.indexOf(oldPrefix) === 0) {
+          path = path.slice(oldPrefix.length) || "/";
+        } else {
+          path = "/";
+        }
+
+        var target = new URL(path + window.location.search + window.location.hash, newBase).toString();
+        var links = ["target-link-cs", "target-link-en", "button-cs", "button-en"];
+        var countdowns = ["countdown-cs", "countdown-en"];
+        var remaining = 5;
+
+        links.forEach(function (id) {
+          var link = document.getElementById(id);
+          if (link) {
+            link.href = target;
+            if (id.indexOf("target-link") === 0) {
+              link.textContent = target;
+            }
+          }
+        });
+
+        var interval = window.setInterval(function () {
+          remaining -= 1;
+          countdowns.forEach(function (id) {
+            var element = document.getElementById(id);
+            if (element) {
+              element.textContent = String(Math.max(remaining, 0));
+            }
+          });
+
+          if (remaining <= 0) {
+            window.clearInterval(interval);
+          }
+        }, 1000);
+
+        window.setTimeout(function () {
+          window.location.replace(target);
+        }, 5000);
+      })();
+    </script>
+  </body>
+</html>
